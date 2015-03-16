@@ -46,7 +46,15 @@ namespace MyShop.Controllers
                     db.OrderDetails.AddRange(orderDetails);
                     db.SaveChanges();
                 }
-                return Content("訂購成功");
+                //return Content("訂購成功");
+                using (Models.CartsEntities db = new Models.CartsEntities())
+                {
+                    var result = (from s in db.Orders
+                                  where s.UserId == userId
+                                  select s).ToList();
+
+                    return View("MyOrder",result);
+                }
             }
             return View();
         }
